@@ -39,6 +39,7 @@ jobs:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Run cart manager agent initializer
+        working-directory: ${{ github.workspace }}
         run: python src/app/agents/cartManagerAgent_initializer.py
 
       - name: Clean up

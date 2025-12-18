@@ -39,6 +39,7 @@ jobs:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Run interior design agent initializer
+        working-directory: ${{ github.workspace }}
         run: python src/app/agents/interiorDesignAgent_initializer.py
 
       - name: Clean up
