@@ -1,0 +1,33 @@
+name: Deploy to Azure Container Registry
+
+on:
+  push:
+    paths:
+      - 'src/**'
+      - '.github/workflows/deploy-to-acr.yml'
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create .env file
+        run: echo "${{ secrets.ENV }}" > src/.env
+
+      - name: Login to Azure Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
+          username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
+          password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ secrets.AZURE_CONTAINER_REGISTRY }}/shopping-assistant:latest src/
+          docker push ${{ secrets.AZURE_CONTAINER_REGISTRY }}/shopping-assistant:latest
+
+      - name: Clean up
+        if: always()
+        run: rm -f src/.env
