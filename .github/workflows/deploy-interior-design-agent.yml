@@ -39,9 +39,7 @@ jobs:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Run interior design agent initializer
-        run: |
-          cd src/
-          python app/agents/interiorDesignAgent_initializer.py
+        run: python src/app/agents/interiorDesignAgent_initializer.py
 
       - name: Clean up
         if: always()

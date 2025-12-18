@@ -40,10 +40,4 @@ jobs:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Run customer loyalty agent initializer
-        run: |
-          cd src/
-          python app/agents/customerLoyaltyAgent_initializer.py
-      
-      - name: Clean up
-        if: always()
-        run: rm -f src/.env
+        run: python src/app/agents/customerLoyaltyAgent_initializer.py
