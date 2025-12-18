@@ -2,46 +2,41 @@ name: Deploy Inventory Agent
 
 on:
   push:
-    # Paths include the initializer, prompt, and workflow
     paths:
       - 'src/app/agents/inventoryAgent_initializer.py'
       - 'src/prompts/InventoryAgentPrompt.txt'
       - '.github/workflows/deploy-inventory-agent.yml'
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  run-inventory-agent:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Create .env file from secret
-        run: 'echo "$ENV" > src/.env'
-        shell: bash
-        env:
-          ENV: ${{ secrets.ENV }}
+      - uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r src/requirements.txt
+      - name: Create .env file
+        run: echo "${{ secrets.ENV }}" > .env
+        working-directory: src
 
-      - name: Login via Azure CLI
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        working-directory: src
+
+      - name: Azure Login
         uses: azure/login@v2.1.1
         with:
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Run inventory agent initializer
-        working-directory: ${{ github.workspace }}
-        run: python src/app/agents/inventoryAgent_initializer.py
+      - name: Run agent initializer
+        run: python app/agents/inventoryAgent_initializer.py
+        working-directory: src
 
-      - name: Clean up
+      - name: Cleanup
         if: always()
-        run: rm -f src/.env
+        run: rm -f .env
+        working-directory: src
