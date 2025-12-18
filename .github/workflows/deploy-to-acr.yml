@@ -39,3 +39,7 @@ jobs:
           cd src/
           docker build -t ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
           docker push ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+      
+      - name: Clean up
+        if: always()
+        run: rm -f src/.env
