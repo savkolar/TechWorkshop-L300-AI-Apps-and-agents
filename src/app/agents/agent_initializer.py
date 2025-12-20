@@ -3,7 +3,9 @@ from azure.ai.projects import AIProjectClient
 from azure.ai.agents.models import ToolSet
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load .env from the src directory (2 levels up from this file)
+env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), '.env')
+load_dotenv(dotenv_path=env_path)
 
 def initialize_agent(project_client : AIProjectClient, model : str, env_var_name : str, name : str, instructions : str, toolset : ToolSet):
     agent_id = os.environ[env_var_name]

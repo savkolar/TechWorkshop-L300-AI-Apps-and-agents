@@ -6,7 +6,9 @@ from azure.identity import DefaultAzureCredential
 from azure.core.exceptions import AzureError
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load .env from the src directory (1 level up from this file)
+env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
+load_dotenv(dotenv_path=env_path)
 
 # CONFIGURATIONS - Replace with your actual values
 COSMOS_ENDPOINT = os.environ.get("COSMOS_ENDPOINT")

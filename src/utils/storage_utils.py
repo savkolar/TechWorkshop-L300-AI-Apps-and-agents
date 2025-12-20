@@ -11,7 +11,9 @@ from dotenv import load_dotenv
 from typing import Optional, BinaryIO
 import logging
 
-load_dotenv()
+# Load .env from the src directory (1 level up from this file)
+env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
+load_dotenv(dotenv_path=env_path)
 
 # Configure logging
 logger = logging.getLogger(__name__)

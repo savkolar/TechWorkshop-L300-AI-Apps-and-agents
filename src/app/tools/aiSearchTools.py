@@ -5,7 +5,9 @@ from azure.search.documents import SearchClient
 from azure.core.credentials import AzureKeyCredential
 
 from dotenv import load_dotenv
-load_dotenv()
+# Load .env from the src directory (3 levels up from this file: app/tools -> app -> src)
+env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), '.env')
+load_dotenv(dotenv_path=env_path)
 
 # Initialize Azure OpenAI and Azure Cognitive Search credentials
 SEARCH_ENDPOINT = os.environ.get("SEARCH_ENDPOINT")

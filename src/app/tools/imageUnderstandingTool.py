@@ -4,7 +4,9 @@ import os
 import base64
 from openai import AzureOpenAI  
 from dotenv import load_dotenv
-load_dotenv()
+# Load .env from the src directory (3 levels up from this file)
+env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), '.env')
+load_dotenv(dotenv_path=env_path)
 
 azure_deployment = os.environ.get("gpt_deployment")
 api_version = os.environ.get("gpt_api_version")

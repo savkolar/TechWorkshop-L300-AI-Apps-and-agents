@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from azure.ai.projects import AIProjectClient
 from azure.identity import DefaultAzureCredential
 from azure.ai.agents.models import ToolSet
@@ -8,7 +8,9 @@ from dotenv import load_dotenv
 from agent_processor import create_function_tool_for_agent
 from agent_initializer import initialize_agent
 
-load_dotenv()
+# Load .env from the src directory (2 levels up from this file)
+env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), '.env')
+load_dotenv(dotenv_path=env_path)
 
 CORA_PROMPT_TARGET = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'prompts', 'ShopperAgentPrompt.txt')
 with open(CORA_PROMPT_TARGET, 'r', encoding='utf-8') as file:

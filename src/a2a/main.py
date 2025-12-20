@@ -13,8 +13,9 @@ from dotenv import load_dotenv
 from api.chat import router as chat_router
 from agent.a2a_server import A2AServer
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from src/.env
+env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
+load_dotenv(dotenv_path=env_path)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

@@ -10,7 +10,9 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 from utils.storage_utils import get_storage_manager
 
-load_dotenv()
+# Load .env from the src directory (3 levels up from this file)
+env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), '.env')
+load_dotenv(dotenv_path=env_path)
 
 storage_account_name = os.getenv("storage_account_name", "")
 container_name = os.getenv("storage_container_name", "")
